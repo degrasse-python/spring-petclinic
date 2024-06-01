@@ -34,7 +34,6 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    dockerImage = docker.build imagename
                     sh 'docker build -t ${DOCKER_IMAGE} .'
                     sh 'docker tag ${DOCKER_IMAGE} ${DOCKER_IMAGE}:latest'
                 }
@@ -48,11 +47,6 @@ pipeline {
                         sh 'echo $DOCKER_JENKINS_TOKEN | docker login -u $DOCKER_USERNAME --password-stdin'
                         sh 'docker push ${DOCKER_REPO}${DOCKER_IMAGE}'
                     }
-                    docker.withRegistry( '', registryCredential ) {
-                    dockerImage.push("$BUILD_NUMBER")
-                    dockerImage.push('latest')
-
-                  }
                 }
             }
         }
