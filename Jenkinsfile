@@ -1,8 +1,14 @@
 pipeline {
-    agent any
-
+    agent {
+      docker {          
+         image 'maven:3.5.0'         
+     } 
+    }
     environment {
-        DOCKER_IMAGE = "originbotanica.jfrog.io/jfroginterview-docker/spring-petclinic:latest"
+        DOCKER_IMAGE = "spring-petclinic"
+        DOCKER_REPO  = "originbotanica.jfrog.io/jfroginterview-docker/"
+        registryCredential = 'originbotanica.jfrog.io/jfroginterview-docker/'
+        BUILD_NUMBER = 'latest'
     }
 
     stages {
@@ -28,7 +34,9 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
+                    dockerImage = docker.build imagename
                     sh 'docker build -t ${DOCKER_IMAGE} .'
+                    sh 'docker tag ${DOCKER_IMAGE} ${DOCKER_IMAGE}:latest'
                 }
             }
         }
@@ -38,8 +46,13 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker-credentials-id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh 'echo $DOCKER_JENKINS_TOKEN | docker login -u $DOCKER_USERNAME --password-stdin'
-                        sh 'docker push ${DOCKER_IMAGE}'
+                        sh 'docker push ${DOCKER_REPO}${DOCKER_IMAGE}'
                     }
+                    docker.withRegistry( '', registryCredential ) {
+                    dockerImage.push("$BUILD_NUMBER")
+                    dockerImage.push('latest')
+
+                  }
                 }
             }
         }

@@ -4,9 +4,16 @@
 
 [See the presentation here](https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application)
 
+## Jenkins Setup
+ - Jenkins Install
+ - Docker Installation
+ - [Jenkins Docker Agents](https://www.jenkins.io/doc/book/using/using-agents/)
+ - [Configure Jenkins Server W/ Docker Plugin](https://devopscube.com/docker-containers-as-build-slaves-jenkins/) - unix:///var/run/docker.sock
+ - Plugins
+
 ## Explaination of the Jenkinsfile 
 
-1. *agent any*: This directive tells Jenkins to run the pipeline on any available agent.
+1. *agent*: This directive tells Jenkins to run the pipeline on any available agent. For our build steps we will be using only the `maven:3.5.0` image and the docker plugin.
 
 2. *environment*: Defines environment variables, in this case, the Docker image name.
 
@@ -38,13 +45,6 @@ NOTES
 
 5. *Entry Point*: The `ENTRYPOINT` instruction specifies the command to run the JAR file when the container starts.
 
-## Run Petclinic locally
-
-Spring Petclinic is a sample spring boot based application that I have forked and created a docker image from. To test this image locally you should do the following.
-
-1. Make sure you have Docker installed and running.
-
-You can then access the Petclinic at <http://localhost:8080/>.
 
 ## Database configuration
 
