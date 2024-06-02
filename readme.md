@@ -35,7 +35,7 @@ NOTES
 
 ## Explaination of the Dockerfile 
 
-1. *Base Image*: The Dockerfile starts by specifying a base image. In this case, it uses `openjdk:11-jre-slim`, which is a slim version of the OpenJDK runtime.
+1. *Base Image*: The Dockerfile starts by specifying a base image. In this case, it uses `eclipse-temurin:17-jdk-jammy`, which is a slim version of the OpenJDK runtime.
 
 2. *Working Directory*: It sets `/app` as the working directory inside the container using the `WORKDIR` instruction.
 
@@ -67,7 +67,7 @@ The following items should be installed in your system:
 
 ### Steps
 
-1. Make sure you have Docker installed and running.
+1. Make sure you have Docker Desktop 4.30.0 installed and running.
 
 `docker image pull originbotanica.jfrog.io/jfroginterview-docker/spring-petclinic:latest`
 
